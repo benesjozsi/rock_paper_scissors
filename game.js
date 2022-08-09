@@ -84,7 +84,7 @@ function playRound (playerChoice) {
             newGame.appendChild(paraTwo);
             paraTwo.textContent = "";
             newGame.appendChild(newGameButton);
-            newGameButton.textContent = "Play a new game?";
+            newGameButton.textContent = "Play a new game!";
             newGameButton.addEventListener("click", newGameFunction);
             rock.disabled = true;
             paper.disabled = true;
