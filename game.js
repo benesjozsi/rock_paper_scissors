@@ -1,79 +1,122 @@
+//computer options
 const options = ["rock", "paper", "scissors"];
 
+//starting score
 let playerScore = 0;
 let computerScore = 0;   
 
+//game triggers
+const rock = document.getElementById("rock");
+const paper = document.getElementById("paper");
+const scissors = document.getElementById("scissors");
+rock.addEventListener("click",playRock);
+paper.addEventListener("click",playPaper);
+scissors.addEventListener("click",playScissors);
+
+//player choices functions
+function playRock () {
+    playRound("rock");
+}
+
+function playPaper () {
+    playRound("paper");
+}
+
+function playScissors () {
+    playRound("scissors");
+}
+
+//declaring variants for displaying info
+const choices = document.getElementById("choices");
+const result = document.getElementById("result");
+const scores = document.getElementById ("scores");
+const newGame = document.getElementById ("newgame");
+const newGameButton = document.createElement("button");
+const paraOne = document.createElement ("p");
+const paraTwo = document.createElement ("p");
+const paraThree = document.createElement ("p");
+const paraFour = document.createElement ("p");
+paraFour.textContent = "";
 
 
-function playRound () {
+//game function
+function playRound (playerChoice) {
 
     let getComputerChoice =  options[Math.floor(Math.random()*options.length)];
     const computerSelection = getComputerChoice;
-    let playerChoice = prompt("Please enter your weapon for this round: ",);
-    let playerSelection = playerChoice.toLowerCase();
+    const playerSelection = playerChoice;
+    const nodeOne = document.createTextNode ("Computer's choice: " + computerSelection)
+    choices.textContent = "Your choice: " + playerSelection;
+    paraOne.textContent = "Computer's choice: " + computerSelection;
+    choices.appendChild(paraOne);
+    choices.appendChild(paraFour);   
 
-console.log ("The computer's choice: ", computerSelection);
-console.log ("Your choice: ", playerSelection);
-
+    
     if (playerSelection === computerSelection) {
-        console.log ("It is a tie.");
+        result.textContent = "It is a tie as " + playerSelection + " ties with " + computerSelection + ".";
         }   else if (playerSelection === "rock" && computerSelection === "scissors") {
-            console.log ("You win! Rock beats scisscors!"); 
+            result.textContent = "You win! Rock beats scisscors!"; 
             playerScore++;
         }   else if (playerSelection === "rock" && computerSelection === "paper") {
-            console.log ("You lose! Paper beats rock!");
+            result.textContent = "You lose! Paper beats rock!";
             computerScore++;
         }   else if (playerSelection === "paper" && computerSelection === "rock") {
-            console.log ("You win! Paper beats rock!");
+            result.textContent = "You win! Paper beats rock!";
             playerScore++;
         }   else if (playerSelection === "paper" && computerSelection === "scissors") {
-            console.log ("You lose! Scissors beats paper!");
+            result.textContent = "You lose! Scissors beats paper!";
             computerScore++;
         }   else if (playerSelection === "scissors" && computerSelection === "paper") {
-            console.log ("You win! Scissors beats paper!");
+            result.textContent = "You win! Scissors beats paper!";
             playerScore++;
         }   else if (playerSelection === "scissors" && computerSelection === "rock") {
-            console.log ("You lose! Rock beats scissors!");
+            result.textContent = "You lose! Rock beats scissors!";
             computerScore++;
         }   else {
-            console.log ("The computer wins because you didn't choose rock, paper or scissors.");
-            computerScore++;
+            alert ("The computer wins because you didn't choose rock, paper or scissors.");
         };
-        console.log ("Your score: ",playerScore);
-        console.log ("Computer's score: ",computerScore);
+        scores.appendChild(paraFour);
+        scores.textContent = "Your score: " + playerScore;
+        scores.appendChild(paraThree);
+        paraThree.textContent = "Computer's score: " + computerScore;
+        if (playerScore === 5)  {
+            newGame.textContent = "You win as you have " + (playerScore - computerScore) + " points more than the computer.";
+            newGame.appendChild(paraTwo);
+            paraTwo.textContent = "";
+            newGame.appendChild(newGameButton);
+            newGameButton.textContent = "Play a new game?";
+            newGameButton.addEventListener("click", newGameFunction);
+            rock.disabled = true;
+            paper.disabled = true;
+            scissors.disabled = true;
+            //rock.addEventListener("click",playRockAgain);
+            //paper.addEventListener("click",playPaperAgain);
+            //scissors.addEventListener("click",playScissorsAgain);
+        } else if (computerScore === 5) {
+            newGame.textContent = "You lose as you have " + (computerScore - playerScore) + " points less than the computer.";
+            newGame.appendChild(paraTwo);
+            paraTwo.textContent = "";
+            newGame.appendChild(newGameButton);
+            newGameButton.textContent = "Play a new game!";
+            newGameButton.addEventListener("click", newGameFunction);
+            rock.disabled = true;
+            paper.disabled = true;
+            scissors.disabled = true;
+            //rock.addEventListener("click",playRockAgain){};
+            //paper.addEventListener("click",playPaperAgain);
+            //scissors.addEventListener("click",playScissorsAgain);
+        }
     }
 
-function game () {
-    for (let i = 0; i <5; i++){
-playRound();
-    }
-
-    if (playerScore < computerScore) {
-        console.log ("You lost! You have ",computerScore-playerScore," points less than the computer.");
-    } else if (playerScore > computerScore) {
-        console.log ("You won! You have ",playerScore-computerScore," points more than the computer.");
-    } else {
-        console.log ("It is a tie. Both you and the computer have same amount of points.");
-    }
-    
-newGame();
-}
-
-function newGame () {
-let newGameAnswer = prompt("Do you want to play again?",);
-if (newGameAnswer === "yes") {
-    computerScore = 0;
+//resetting the displayed info for a fresh start    
+function newGameFunction () {
     playerScore = 0;
-    game();
- } else if (newGameAnswer === "no") {
-    } else {
-        console.log("Please enter yes or no.")
-        newGame();
-    }
+    computerScore = 0;
+    newGame.textContent = "";
+    result.textContent = "";
+    choices.textContent = "";
+    scores.textContent = "";
+    rock.disabled = false;
+    paper.disabled = false;
+    scissors.disabled = false;
 }
-
-game();
-
-
-
-
